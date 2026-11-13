@@ -21,7 +21,6 @@ function direct(scene) {
     a = unknown.map((id, row) => {
       const coefficients = Array(unknown.length + 1).fill(0);
       coefficients[row] = 4;
-      coefficients.at(-1);
       coefficients[unknown.length] = h * h * source[id];
       for (const neighbor of [id - 1, id + 1, id - n, id + n])
         if (fixed[neighbor]) coefficients[unknown.length] += values[neighbor];

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Thermal Commons</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <a href="#">thermal commons <span>↗</span></a>
+      <p>SCIENTIFIC COMPUTING / STEADY-STATE FIELDS</p>
+      <label class="file">Open experiment<input id="import" type="file" accept=".json" /></label>
+    </header>
+    <main>
+      <div class="title-row">
+        <h1>Where warmth<br />finds its balance.</h1>
+        <div>
+          <p>Paint constraints. Solve a field.<br />Watch the residual disappear.</p>
+          <label
+            >Experiment
+            <select id="example">
+              <option value="wall">One warm wall</option>
+              <option value="source">Uniform heat generation</option>
+              <option value="pin">A fixed hot center</option>
+            </select></label
+          >
+        </div>
+      </div>
+      <div class="workspace">
+        <section>
+          <div class="field-top">
+            <h2>The temperature field</h2>
+            <span id="view-label">Initial guess</span>
+          </div>
+          <canvas
+            id="field"
+            width="630"
+            height="630"
+            aria-label="Temperature field and editable interior cells"
+          ></canvas>
+          <div class="scale"><span id="minimum"></span><i></i><span id="maximum"></span></div>
+          <div class="paint">
+            <label
+              >Cell tool<select id="tool">
+                <option value="inspect">Inspect</option>
+                <option value="pin">Fixed temperature</option>
+                <option value="source">Source strength</option>
+                <option value="erase">Erase constraint</option>
+              </select></label
+            ><label>Value<input id="paint-value" type="number" value="150" step="any" /></label>
+          </div>
+          <div class="coordinates">
+            <label>X <input id="x" type="number" min="0" value="10" /></label
+            ><label>Y <input id="y" type="number" min="0" value="10" /></label
+            ><button id="cell">Apply cell tool</button>
+          </div>
+          <p id="probe" class="hint"></p>
+          <p class="hint">
+            Squares mark fixed interior temperatures; dots mark source patches. Model coordinates
+            run from 0 to 1 on both axes.
+          </p>
+        </section>
+        <aside>
+          <h2>Boundary conditions</h2>
+          <div class="pairs">
+            <label>Top<input id="top" type="number" value="100" step="any" /></label
+            ><label>Bottom<input id="bottom" type="number" value="0" step="any" /></label
+            ><label>Left<input id="left" type="number" value="0" step="any" /></label
+            ><label>Right<input id="right" type="number" value="0" step="any" /></label>
+          </div>
+          <label
+            >Background source<input id="background" type="number" value="0" step="any" /></label
+          ><label
+            >Grid width<input id="size" type="number" min="5" max="41" value="21" /><small
+              >5–41 nodes; resizing clears painted cells</small
+            ></label
+          >
+          <h2 class="solver-heading">Solver settings</h2>
+          <label
+            >Method<select id="method">
+              <option value="sor">SOR</option>
+              <option value="gs">Gauss–Seidel</option>
+              <option value="jacobi">Jacobi</option>
+            </select></label
+          ><label
+            >SOR relaxation ω<input
+              id="omega"
+              type="number"
+              min="0.1"
+              max="1.95"
+              step="0.05"
+              value="1.6"
+          /></label>
+          <div class="pairs">
+            <label
+              >Residual tolerance<input
+                id="tolerance"
+                type="number"
+                min="0.000001"
+                max="1"
+                step="any"
+                value="0.001" /></label
+            ><label
+              >Iteration limit<input id="limit" type="number" min="1" max="5000" value="3000"
+            /></label>
+          </div>
+          <button id="solve" class="primary">Solve this field →</button>
+          <div class="buttons">
+            <button id="compare">Compare all three</button
+            ><button id="cancel" disabled>Cancel</button>
+          </div>
+          <button id="save">Save experiment</button>
+        </aside>
+      </div>
+      <p id="status" role="status" aria-live="polite"></p>
+      <section id="results" hidden>
+        <div class="field-top">
+          <h2>Convergence, made visible</h2>
+          <span>LOG RESIDUAL / ITERATION</span>
+        </div>
+        <svg
+          id="chart"
+          viewBox="0 0 900 240"
+          role="img"
+          aria-label="Residual convergence chart"
+        ></svg>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Sweeps</th>
+                <th>Residual ∞</th>
+                <th>Outcome</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="summary"></tbody>
+          </table>
+        </div>
+        <div class="buttons exports">
+          <button id="csv">Export field CSV</button
+          ><button id="report">Export complete analysis</button>
+        </div>
+      </section>
+      <footer>
+        <span>−∇²T = q · UNIT SQUARE · DIRICHLET BOUNDARIES</span
+        ><span>A numerical model, not a transient heat simulation.</span>
+      </footer>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
