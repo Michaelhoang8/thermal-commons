@@ -14,6 +14,7 @@ function el(tag, text) {
 }
 function status(text) {
   $('status').textContent = text;
+  $('settings-status').textContent = text;
 }
 function number(id) {
   if (!$(id).value.trim()) throw Error('Fill all numeric settings.');
@@ -291,6 +292,11 @@ for (const id of [
       status(e.message);
     }
   });
+$('settings-open').addEventListener('click', () => {
+  $('settings-status').textContent = '';
+  $('settings-panel').showModal();
+});
+$('settings-close').addEventListener('click', () => $('settings-panel').close());
 $('solve').addEventListener('click', () => run());
 $('compare').addEventListener('click', () => run(true));
 $('cancel').addEventListener('click', () => {

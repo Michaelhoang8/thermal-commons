@@ -14,6 +14,10 @@ python run.py
 
 Open http://127.0.0.1:8000. Solves run in a browser worker. The local server only serves five static assets, and experiments never leave the browser.
 
+## Interface
+
+The temperature field is surrounded by its four boundary inputs, positioned on their corresponding edges. Painting and cell-coordinate tools sit below the color scale. **Solver settings** contains grid size, background source, method parameters, and experiment files; **Convergence & exports** expands the comparison chart, solver table, and downloads.
+
 ## Use the workbench
 
 - Choose a warm-wall, uniform-source, or fixed-hot-center experiment.
