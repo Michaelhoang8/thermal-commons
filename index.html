@@ -18,7 +18,12 @@
       ><button id="cancel" disabled>Cancel</button>
     </header>
     <main>
-      <div class="field-head"><span id="view-label">Initial guess</span><span>−∇²T = q</span></div>
+      <div class="field-head">
+        <span id="view-label">Initial guess</span
+        ><label class="contour-control" title="Nine interpolated levels between the displayed minimum and maximum"
+          ><input id="isotherms" type="checkbox" checked /> Isotherms</label
+        ><span>−∇²T = q</span>
+      </div>
       <div class="field-cross">
         <label class="edge top">Top<input id="top" type="number" value="100" step="any" /></label
         ><label class="edge right"

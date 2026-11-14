@@ -18,6 +18,8 @@ Open http://127.0.0.1:8000. Solves run in a browser worker. The local server onl
 
 The temperature field is surrounded by its four boundary inputs, positioned on their corresponding edges. Painting and cell-coordinate tools sit below the color scale. **Solver settings** contains grid size, background source, method parameters, and experiment files; **Convergence & exports** expands the comparison chart, solver table, and downloads.
 
+Optional isotherms show nine evenly spaced levels between the displayed minimum and maximum, using piecewise-linear interpolation on a consistent triangulation between grid samples. They appear only for solved iterates and are visual guides rather than additional solver accuracy. Constant fields have no contour lines.
+
 ## Use the workbench
 
 - Choose a warm-wall, uniform-source, or fixed-hot-center experiment.

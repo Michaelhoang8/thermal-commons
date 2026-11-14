@@ -82,6 +82,50 @@ function color(value, min, max) {
     fraction = position - index;
   return `rgb(${stops[index].map((v, c) => Math.round(v + (stops[index + 1][c] - v) * fraction)).join(',')})`;
 }
+function drawIsotherms(ctx, values, n, min, max) {
+  if (max === min) return;
+  const cell = 630 / n;
+  ctx.strokeStyle = '#fff8e7';
+  ctx.globalAlpha = 0.5;
+  ctx.lineWidth = 1;
+  for (let level = 1; level < 10; level++) {
+    const threshold = min + ((max - min) * level) / 10;
+    ctx.beginPath();
+    for (let row = 0; row < n - 1; row++)
+      for (let col = 0; col < n - 1; col++) {
+        const points = [
+          [col, row],
+          [col + 1, row],
+          [col + 1, row + 1],
+          [col, row + 1],
+        ];
+        for (const ids of [
+          [0, 1, 2],
+          [0, 2, 3],
+        ]) {
+          const hits = [];
+          for (let edge = 0; edge < 3; edge++) {
+            const a = points[ids[edge]],
+              b = points[ids[(edge + 1) % 3]],
+              av = values[a[1] * n + a[0]],
+              bv = values[b[1] * n + b[0]];
+            if (av < threshold === bv < threshold) continue;
+            const t = (threshold - av) / (bv - av);
+            hits.push([
+              (a[0] + (b[0] - a[0]) * t + 0.5) * cell,
+              (a[1] + (b[1] - a[1]) * t + 0.5) * cell,
+            ]);
+          }
+          if (hits.length === 2) {
+            ctx.moveTo(...hits[0]);
+            ctx.lineTo(...hits[1]);
+          }
+        }
+      }
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+}
 function draw() {
   const current = results[selected],
     grid = current || assemble(scene),
@@ -97,6 +141,7 @@ function draw() {
       ctx.fillStyle = color(values[i], min, max);
       ctx.fillRect(x * cell, y * cell, cell + 0.5, cell + 0.5);
     }
+  if (current && $('isotherms').checked) drawIsotherms(ctx, values, n, min, max);
   ctx.strokeStyle = '#fff9ed';
   ctx.lineWidth = 1.5;
   for (const pin of scene.pins)
@@ -389,3 +434,5 @@ $('import').addEventListener('change', async () => {
 sync();
 draw();
 run();
+
+$('isotherms').addEventListener('change', draw);

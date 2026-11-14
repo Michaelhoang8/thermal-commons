@@ -418,3 +418,27 @@ dialog small {
     transition: background 0.15s;
   }
 }
+.contour-control {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  font: 11px Arial;
+  color: #6f705c;
+}
+.contour-control input {
+  width: auto;
+  accent-color: #a45b39;
+  margin: 0;
+}
+.field-head {
+  gap: 20px;
+}
+@media (max-width: 500px) {
+  .field-head {
+    gap: 10px;
+  }
+  .contour-control {
+    font-size: 10px;
+  }
+}
